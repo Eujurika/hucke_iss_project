@@ -34,19 +34,20 @@ svg {
 }
 
 svg .country {
-	stroke: green;
+	stroke: royalblue;
 	fill: lightcyan;
 	stroke-width: 1px;
 }
 
 svg .country:hover {
-	stroke: yellow;
+	stroke: darkcyan;
+	fill: lightblue;
 	stroke-width: 1px;
 	cursor: pointer;
 }
 
 .earth {
-	fill: blue;
+	fill: darkblue;
 	stroke: none;
 }
 
