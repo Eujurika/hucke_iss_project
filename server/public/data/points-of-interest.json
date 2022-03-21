@@ -1,0 +1,14 @@
+[
+  {
+    "name": "uni-bremen",
+    "coordinates": [8.85216, 53.10517, 0]
+  },
+  {
+    "name": "johannesburg",
+    "coordinates": [28.04363, -26.20227, 0]
+  },
+  {
+    "name": "iss",
+    "coordinates": [0, 0]
+  }
+]

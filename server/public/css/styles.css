@@ -1,0 +1,56 @@
+.water {
+	fill: #00248f;
+}
+
+.night {
+	fill: black;
+	opacity: 0.5;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	/* padding: 0 50px 150px; */
+	text-align: center;
+	box-sizing: border-box;
+	position: relative;
+}
+
+#wrapper {
+	/* margin-bottom: 2rem; */
+	/* height: 90vh; */
+	height: 100%;
+	position: relative;
+}
+
+svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	/* border: solid black 1px; */
+}
+
+svg .country {
+	stroke: green;
+	fill: lightcyan;
+	stroke-width: 1px;
+}
+
+svg .country:hover {
+	stroke: yellow;
+	stroke-width: 1px;
+	cursor: pointer;
+}
+
+.earth {
+	fill: blue;
+	stroke: none;
+}
+
+.graticule {
+	stroke: #cadddd;
+	fill: none;
+}
