@@ -14,6 +14,9 @@ const infoText =
   'Der Mittelpunkt der Erde, aus Sicht des Betrachters, wird als Koordinate (Longitude/Latitude) in einem weiteren Ausgabefeld angezeigt.<br>' +
   'Durch die Selektierung eines Landes wird der Zeitpunkt des nächsten Überflugs der ISS angezeigt.';
 
+const indexLon = 0;
+const indexLat = 1;
+
 var π = Math.PI,
   radians = π / 180,
   degrees = 180 / π;
@@ -44,8 +47,8 @@ const node_service_api_url = `${window.location.protocol}//${window.location.hos
 function setSatelliteData(pointsOfInterest, name, data) {
   pointsOfInterest.forEach((d) => {
     if (d.name === name) {
-      d.coordinates[1] = data.latitude;
-      d.coordinates[0] = data.longitude;
+      d.coordinates[indexLon] = data.longitude;
+      d.coordinates[indexLat] = data.latitude;
     }
   });
 }
@@ -72,17 +75,17 @@ function sticker(sel, label) {
     .attr('rx', 4)
     .attr('ry', 5)
     .attr('width', 100)
-    .attr('height', 60)
+    .attr('height', 50)
     .attr('x', -50)
     .attr('y', -15)
-    .attr('fill', 'none')
+    .attr('fill', 'white')
     .attr('stroke', 'orange')
     .classed('frame', true);
 
   sel
     .append('text')
     .attr('x', 0)
-    .attr('y', 5)
+    .attr('y', 0)
     .attr('text-anchor', 'middle')
     .attr('font-family', 'sans-serif')
     .attr('font-size', 14)
@@ -93,13 +96,24 @@ function sticker(sel, label) {
   sel
     .append('text')
     .attr('x', 0)
-    .attr('y', 25)
+    .attr('y', 15)
     .attr('text-anchor', 'middle')
     .attr('font-family', 'sans-serif')
-    .attr('font-size', 14)
+    .attr('font-size', 10)
     .attr('stroke', 'orange')
     .classed('label', true)
-    .text(label ? label : (d) => d.name);
+    .text(label ? label : (d) => `lon: ${d.coordinates[indexLon].toFixed(1)}`);
+
+  sel
+    .append('text')
+    .attr('x', 0)
+    .attr('y', 30)
+    .attr('text-anchor', 'middle')
+    .attr('font-family', 'sans-serif')
+    .attr('font-size', 10)
+    .attr('stroke', 'orange')
+    .classed('label', true)
+    .text(label ? label : (d) => `lat: ${d.coordinates[indexLat].toFixed(1)}`);
 }
 
 function stickerPositionISS(sel, label) {
@@ -108,17 +122,17 @@ function stickerPositionISS(sel, label) {
     .attr('rx', 4)
     .attr('ry', 5)
     .attr('width', 100)
-    .attr('height', 60)
+    .attr('height', 50)
     .attr('x', -50)
     .attr('y', -15)
-    .attr('fill', 'none')
+    .attr('fill', 'white')
     .attr('stroke', 'orange')
     .classed('frame', true);
 
   sel
     .append('text')
     .attr('x', 0)
-    .attr('y', 5)
+    .attr('y', 0)
     .attr('text-anchor', 'middle')
     .attr('font-family', 'sans-serif')
     .attr('font-size', 14)
@@ -129,106 +143,69 @@ function stickerPositionISS(sel, label) {
   sel
     .append('text')
     .attr('x', 0)
-    .attr('y', 25)
+    .attr('y', 15)
     .attr('text-anchor', 'middle')
     .attr('font-family', 'sans-serif')
-    .attr('font-size', 14)
+    .attr('font-size', 10)
+    .attr('stroke', 'orange')
+    .classed('label', true)
+    .text(label ? label : (d) => `lon: ${d.coordinates[indexLon].toFixed(1)}`);
+
+  sel
+    .append('text')
+    .attr('x', 0)
+    .attr('y', 30)
+    .attr('text-anchor', 'middle')
+    .attr('font-family', 'sans-serif')
+    .attr('font-size', 10)
+    .attr('stroke', 'orange')
+    .classed('label', true)
+    .text(label ? label : (d) => `lat: ${d.coordinates[indexLat].toFixed(1)}`);
+}
+
+function stickerNextPass(sel, label) {
+  sel
+    .append('rect')
+    .attr('rx', 4)
+    .attr('ry', 5)
+    .attr('width', 100)
+    .attr('height', 50)
+    .attr('x', -50)
+    .attr('y', -15)
+    .attr('fill', 'white')
+    .attr('stroke', 'orange')
+    .classed('frame', true);
+
+  sel
+    .append('text')
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr('text-anchor', 'middle')
+    .attr('font-family', 'sans-serif')
+    .attr('font-size', 12)
     .attr('stroke', 'orange')
     .classed('label', true)
     .text(label ? label : (d) => d.name);
+
+  sel
+    .append('text')
+    .attr('x', 0)
+    .attr('y', 15)
+    .attr('text-anchor', 'middle')
+    .attr('font-family', 'sans-serif')
+    .attr('font-size', 10)
+    .attr('stroke', 'orange')
+    .classed('label', true)
+    .text(label ? label : (d) => d.datePass);
+
+  sel
+    .append('text')
+    .attr('x', 0)
+    .attr('y', 30)
+    .attr('text-anchor', 'middle')
+    .attr('font-family', 'sans-serif')
+    .attr('font-size', 10)
+    .attr('stroke', 'orange')
+    .classed('label', true)
+    .text(label ? label : (d) => d.timePass);
 }
-
-/* let controller = new AbortController();
-
-d3.selectAll('p')
-  .on('mouseenter', async function () {
-    console.log('mouseenter');
-    try {
-      // initiate fetch with an AbortController signal
-      const response = await fetch('https://swapi.dev/api/planets/1/', {
-        signal: controller.signal,
-      });
-      console.log({ response });
-      const planet = await response.json();
-      console.log({ planet });
-      d3.select(this).attr('title', planet.name);
-    } catch (error) {
-      console.log({ error });
-      // do nothing
-    }
-  })
-  .on('mouseleave', function () {
-    console.log('mouseleave');
-    // remove title attribute
-    d3.select(this).attr('title', null);
-    // invoke abort signal
-    controller.abort();
-    // reset AbortController
-    controller = new AbortController();
-  }); */
-
-/* function onMouseDown(e, datum) {
-    const [centerX, centerY] = pathGenerator.centroid(datum);
-    const earthCoordinates = projection.invert(d3.pointer(e));
-
-    // local service
-    const url = `http://localhost:8080/satellite/iss-passes/?lat=${earthCoordinates[0]}&lon=${earthCoordinates[1]}&alt=1650&n=1`;
-    // foreign service
-    //const url = `http://api.open-notify.org/iss/v1/?lat=${earthCoordinates[0]}&lon=${earthCoordinates[1]}&alt=1650&n=1`;
-
-    fetch(url, { method: 'GET' })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Bad status code from server.');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.message === 'success') {
-          var date = new Date(data.response[1].risetime * 1000);
-          console.log(data.response[0].risetime);
-          console.log(date.getTime());
-          console.log(date);
-          console.log(date.getDate());
-          nextPass = data.response[0].risetime;
-        }
-
-        var tag = date.getDate();
-        var monat = date.getMonth() + 1;
-        var jahr = date.getFullYear();
-        var stunde = date.getHours();
-        var minute = date.getMinutes();
-        var sekunde = date.getSeconds();
-        var millisek = date.getMilliseconds();
-
-        var uhrzeit = `${tag}.${monat}.${jahr} ${stunde}:${minute}`;
-        const infoText = `${datum.properties.NAME}: ${uhrzeit}`;
-
-       
-        countryData.push(infoText);
-        const hoveredRectangle = group
-          .selectAll('.next-pass')
-          .data(countryData)
-          .join('text')
-          .attr('class', 'next-pass')
-          .attr('font-size', '25px')
-          .attr('x', centerX)
-          .attr('y', centerY)
-          .attr('stroke', 'orange')
-          .text((d) => d);
-
-        const t = d3.timer(() => {
-          countryData.pop();
-          group
-            .selectAll('.next-pass')
-            .data(countryData)
-            .join('text')
-            .attr('class', 'next-pass')
-            .attr('x', centerX)
-            .attr('y', centerY)
-            .attr('stroke', 'orange')
-            .text((d) => d);
-          t.stop();
-        }, 5000);
-      });
-  } */
