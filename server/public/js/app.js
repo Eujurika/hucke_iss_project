@@ -196,8 +196,6 @@ async function drawApp() {
   async function setPointData(event, datum) {
     try {
       const eventData = d3.pointer(event);
-      const myX = eventData[0];
-      const myY = eventData[1];
       event.preventDefault();
 
       // Das Datum in ein Array pushen immer nur ein Land
@@ -207,13 +205,11 @@ async function drawApp() {
         .data(pointData)
         .join('g')
         .attr('class', 'poi-circle')
-        .attr('font-size', '25px')
         .attr(
           'transform',
-          (d, i) => 'translate(' + myX + ',' + (myY - 55) + ')'
+          (d, i) =>
+            'translate(' + eventData[0] + ',' + (eventData[1] - 55) + ')'
         )
-        .attr('stroke', 'orange')
-        /* .text((d) => d.name); */
         .call(sticker);
     } catch (error) {
       // do nothing
@@ -235,10 +231,7 @@ async function drawApp() {
   async function setIssData(event, datum) {
     try {
       const eventData = d3.pointer(event);
-      const myX = eventData[0];
-      const myY = eventData[1];
       event.preventDefault();
-      console.log('SetISSData');
       // Das Datum in ein Array pushen
       issData.push(datum);
       const hoveredRectangle = group
@@ -246,13 +239,11 @@ async function drawApp() {
         .data(issData)
         .join('g')
         .attr('class', 'iss-circle')
-        .attr('font-size', '25px')
         .attr(
           'transform',
-          (d, i) => 'translate(' + myX + ',' + (myY - 55) + ')'
+          (d, i) =>
+            'translate(' + eventData[0] + ',' + (eventData[1] - 55) + ')'
         )
-        .attr('stroke', 'orange')
-        /* .text((d) => d); */
         .call(stickerPositionISS);
     } catch (error) {
       // do nothing
@@ -272,6 +263,7 @@ async function drawApp() {
     // Pruefen, ob ein Punkt sichtbar ist oder ob er sich auf der Rückseite
     // der Erdkugel befindet
     const hasPath = [false, false, false];
+    console.log('pointsOfInterest', pointsOfInterest);
     pointsOfInterest.forEach(function (d, i) {
       lon_lat = [d.coordinates[indexLon], d.coordinates[indexLat]];
       hasPath[i] =
@@ -377,38 +369,19 @@ async function drawApp() {
       d3.select(this).style('color', showInfo ? 'orange' : 'gray');
       d3.select('#info')
         .style('display', showInfo ? 'block' : 'none')
-        /* d3.select('#info')
-        .style('color', showInfo ? 'white' : 'gray') */
         .html(infoText);
     })
     .on('mouseup touchend', function () {});
 
-  // Optionale Dartstellung Info Text
+  // Die ISS im Origin darstellen
   const buttonShowIss = d3
     .select('#button-show-iss')
-    /* .style('color', showInfo ? 'orange' : 'gray') */
     .on('mousedown touchstart', function (event) {
       event.preventDefault();
       d3.select(this).style('color', 'orange');
 
       const d = getISS(pointsOfInterest);
-      //console.log('d', d);
-
-      /*  const angleLon = getAngleOfLongitude(d[0].coordinates[indexLon]);
-      const angleLat = getAngleOfLatitude(d[0].coordinates[indexLat]);
-
-      console.log('angleLon', angleLon);
-      console.log('angleLat', angleLat); */
-      //positionActual = [angleLat, angleLon];
-      /* positionActual = [angleLon, angleLat]; */
-      /* refreshEarth(positionActual); */
       refreshEarth(d[0].coordinates);
-      /* console.log('WO IST DIE ISS?'); */
-      ///
-      ///
-      ///
-      ///
-      ///
     })
     .on('mouseup mouseleave touchend', function () {
       d3.select(this).style('color', 'gray');
@@ -445,6 +418,7 @@ async function drawApp() {
   }
 
   function refreshEarth(posAct) {
+    // Aktualisierung der Erde
     const p = [-posAct[0], -posAct[1]];
     projection.rotate(p);
 
@@ -488,9 +462,6 @@ async function drawApp() {
     .rotate(positionActual); // Erde als Kugel
 
   const path = d3.geoPath().projection(projection);
-  /* .pointRadius(function (d) {
-      return 6;
-    }); */
 
   // Den Container für die svg Grafik selektieren
   const wrapper = d3.select('#wrapper');
