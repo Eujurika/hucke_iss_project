@@ -1,3 +1,13 @@
+/*
+In diesem Projekt habe ich erste Erfahrungen mit der Library D3.js gesammelt.
+D3.js ist eine JavaScript Library, die es ermöglicht Datensätze im Web zu visualisieren.
+Eine kurze Einführung findet man unter
+https://www.massiveart.com/de-de/blog/d3-js-oder-erfolgreich-daten-visualisiert-im-web
+Die beste Quelle für diese Bibliothek ist aber die Original Dokumentation der D3.js
+Website
+https://d3js.org/
+*/
+
 async function drawApp() {
   /*
   Die Funktion drawApp ist für die Dynamik,
