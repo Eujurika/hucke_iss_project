@@ -23,7 +23,10 @@ async function drawApp() {
   // alle Länder als geojson objects lesen
   const data = await d3.json('./data/world-geojson.json');
 
-  // alle darzustellenden interessanten Punkte
+  // alle darzustellenden interessanten Punkte.
+  // Achtung die ISS muss zur Zeit der letzte Eintrag sein.
+  // Das werde ich in einer späteren Version, wenn mehrere Satelliten
+  // angezeigt werden verbesseren!
   const pointsOfInterest = await d3.json('./data/points-of-interest.json');
 
   ///////////////////////////////////////////////////
@@ -83,7 +86,9 @@ async function drawApp() {
       .attr('cx', (d) => getMapping('lon', d))
       .attr('cy', (d) => getMapping('lat', d))
       .attr('r', 10)
-      .style('display', (d, i) => (hasPath[2] ? 'inline' : 'none'))
+      .style('display', (d, i) =>
+        hasPath[pointsOfInterest.length - 1] ? 'inline' : 'none'
+      )
       .attr('fill', 'orange')
       .call(animate);
 
@@ -262,7 +267,12 @@ async function drawApp() {
   function getPOIsVisibleState() {
     // Pruefen, ob ein Punkt sichtbar ist oder ob er sich auf der Rückseite
     // der Erdkugel befindet
-    const hasPath = [false, false, false];
+
+    const hasPath = [];
+    pointsOfInterest.forEach(function (d, i) {
+      hasPath.push(false);
+    });
+    console.log('hasPath', hasPath);
     console.log('pointsOfInterest', pointsOfInterest);
     pointsOfInterest.forEach(function (d, i) {
       lon_lat = [d.coordinates[indexLon], d.coordinates[indexLat]];
