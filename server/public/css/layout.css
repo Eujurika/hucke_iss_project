@@ -91,9 +91,9 @@ body {
 }
 
 .output-p {
-	border: 2px solid yellow;
+	border: 2px solid orange;
 	background-color: darkseagreen;
-	color: yellow;
+	color: white;
 	width: 192px;
 
 	margin-top: 2px;

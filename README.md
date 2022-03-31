@@ -6,7 +6,7 @@
 
 ## General info
 
-TThis project was created as part of the HfK course (Always under Construction) and contains a dynamic website which was created using the D3.js framework. On the website, the position of the ISS on the globe can be displayed, as well as some additional information about the overflight of the individual countries. The website is first of all intended to invite the user to explore and find out what can be done with the minimalist, scientifically stylistic layout. The user can get more detailed information by clicking on the information button (i).
+This project was created as part of the HfK course (Always under Construction) and contains a dynamic website which was created using the D3.js framework. On the website, the position of the ISS on the globe can be displayed, as well as some additional information about the overflight of the individual countries. The website is first of all intended to invite the user to explore and find out what can be done with the minimalist, scientifically stylistic layout. The user can get more detailed information by clicking on the information button (i).
 
 ## Technologies
 
